@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace COM3D2.I2PluginLocalization;
+namespace I2PluginLocalization;
 
 public class Localization {
 	[XmlElement("Term")]

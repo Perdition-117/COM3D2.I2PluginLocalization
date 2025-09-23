@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace COM3D2.I2PluginLocalization;
+namespace I2PluginLocalization;
 
 public class LanguageChangedEventArgs : EventArgs {
 	public object Language { get; set; }

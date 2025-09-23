@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using HarmonyLib;
 using I2.Loc;
 
-namespace COM3D2.I2PluginLocalization;
+namespace I2PluginLocalization;
 
 public class PluginLocalization {
 	private const string LanguageSourceName = "I2Languages";
