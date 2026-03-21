@@ -34,7 +34,11 @@ Supported language codes include:
 
 Initialize your localization by creating a new instance of `PluginLocalization`, specifying the path to the directory that holds your localization, as well as your identifier.
 ```cs
-var localization = PluginLocalization.Load(@"BepInEx\plugins\MyPlugin\localization", "MyNamespace");
+var localization = PluginLocalization.Load(@"BepInEx\plugins\MyPlugin\localization", "MyPlugin");
+```
+```cs
+var localization = new PluginLocalization();
+localization.AddLocalization(@"BepInEx\plugins\MyPlugin\localization", "MyPlugin");
 ```
 
 This creates a pseudo unique term namespace for your plugin in the I2 Localization system and loads your translations from the localization XML files.

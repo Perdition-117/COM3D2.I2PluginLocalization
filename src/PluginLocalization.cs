@@ -28,7 +28,7 @@ public class PluginLocalization {
 		Harmony.CreateAndPatchAll(typeof(PluginLocalization));
 	}
 
-	private PluginLocalization(string @namespace) {
+	public PluginLocalization(string @namespace) {
 		if (string.IsNullOrEmpty(@namespace)) {
 			throw new ArgumentException($"{nameof(@namespace)} must be a non empty string.");
 		}
@@ -48,26 +48,32 @@ public class PluginLocalization {
 	}
 
 	public static PluginLocalization Load(string localizationRoot, string @namespace) {
+		var pluginLocalization = new PluginLocalization(@namespace);
+		pluginLocalization.AddLocalization(localizationRoot);
+		return pluginLocalization;
+	}
+
+	public void AddLocalization(string localizationRoot, string fileName = null) {
 		if (!Directory.Exists(localizationRoot)) {
 			throw new ArgumentException($"Localization directory {localizationRoot} does not exist.");
 		}
 
-		var pluginLocalization = new PluginLocalization(@namespace);
-
 		foreach (var languageCode in LanguageCodes) {
-			var localizationPath = Path.Combine(localizationRoot, $"{@namespace}.{languageCode}.xml");
+			var localizationPath = Path.Combine(localizationRoot, $"{fileName ?? _namespace}.{languageCode}.xml");
 			if (File.Exists(localizationPath)) {
 				using var reader = XmlReader.Create(localizationPath);
 				var localization = (Localization)Serializer.Deserialize(reader);
-				pluginLocalization.AddLanguage(languageCode, localization);
+				if (_languages.TryGetValue(languageCode, out var language)) {
+					language.Terms.AddRangeToArray(localization.Terms);
+				} else {
+					AddLanguage(languageCode, localization);
+				}
 			}
 		}
 
 		if (LocalizationManager.Sources.Exists(e => e.name == LanguageSourceName)) {
-			pluginLocalization.LoadTranslations();
+			LoadTranslations();
 		}
-
-		return pluginLocalization;
 	}
 
 	private void AddLanguage(string languageCode, Localization localization) {
