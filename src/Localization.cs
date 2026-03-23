@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace I2PluginLocalization;
 
 public class Localization {
 	[XmlElement("Term")]
-	public Term[] Terms { get; set; }
+	public List<Term> Terms { get; set; }
 
 	public class Term {
 		[XmlAttribute]

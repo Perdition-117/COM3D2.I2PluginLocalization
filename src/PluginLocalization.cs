@@ -64,7 +64,7 @@ public class PluginLocalization {
 				using var reader = XmlReader.Create(localizationPath);
 				var localization = (Localization)Serializer.Deserialize(reader);
 				if (_languages.TryGetValue(languageCode, out var language)) {
-					language.Terms.AddRangeToArray(localization.Terms);
+					language.Terms.AddRange(localization.Terms);
 				} else {
 					AddLanguage(languageCode, localization);
 				}
